@@ -58,7 +58,7 @@ contract Swap {
       //path is an array of addresses.
       //this path array will have 3 addresses [tokenIn, WETH, tokenOut]
       //the if statement below takes into account if token in or token out is WETH.  then the path is only 2 addresses
-      // address[] memory path;
+      address[] memory path;
        if (_tokenIn == WETH || _tokenOut == WETH) {
         path = new address[](2);
         path[0] = _tokenIn;
