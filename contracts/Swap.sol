@@ -64,7 +64,7 @@ contract Swap {
     //address of WETH token.  This is needed because some times it is better to trade through WETH.  
     //you might get a better price using WETH.  
     //example trading from token A to WETH then WETH to token B might result in a better price
-    address private constant WETH = 0xae13d989dac2f0debff460ac112a837c89baa7cd;
+    address private constant WETH = 0xae13d989daC2f0dEbFf460aC112a837C89BAa7cd;
     
     //this swap function is used to trade from one token to another
     //the inputs are self explainatory
