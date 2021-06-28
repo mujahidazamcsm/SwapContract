@@ -28,7 +28,6 @@ interface IPancakeRouter {
 }
 
 contract Swap {
-    
     //address of the PCS V2 router
     address private constant PANCAKE_V2_ROUTER = 0x9Ac64Cc6e4415144C455BD8E4837Fea55603e5c3;
     
@@ -37,9 +36,6 @@ contract Swap {
     //example trading from token A to WETH then WETH to token B might result in a better price
     address private constant WETH = 0xae13d989daC2f0dEbFf460aC112a837C89BAa7cd;
     
-    event Debug(uint timestamp, uint amountIn, uint amountOut, address[] path, uint allowance, address sender);
-    event Tick(uint timestamp);
-
     //this swap function is used to trade from one token to another
     //the inputs are self explainatory
     //token in = the token address you want to trade out of
@@ -48,22 +44,22 @@ contract Swap {
     //amount out Min = the minimum amount of tokens you want out of the trade
     //to = the address you want the tokens to be sent to
     function swap(address _tokenIn, address _tokenOut, uint _amountIn, uint _amountOutMin, address _to) external {
-      emit Tick(now);
+
       //first we need to transfer the amount in tokens from the msg.sender to this contract
       //this contract will have the amount of in tokens
       IERC20(_tokenIn).transferFrom(msg.sender, address(this), _amountIn);
-      emit Tick(now);
+
       //next we need to allow the router to spend the token we just sent to this contract
       //by calling IERC20 approve you allow the contract to spend the tokens in this contract 
       IERC20(_tokenIn).approve(PANCAKE_V2_ROUTER, _amountIn);
-      emit Tick(now);
+
       uint allowed = IERC20(_tokenIn).allowance(address(this), PANCAKE_V2_ROUTER);
-      emit Tick(now);
+
       //path is an array of addresses.
       //this path array will have 3 addresses [tokenIn, WETH, tokenOut]
       //the if statement below takes into account if token in or token out is WETH.  then the path is only 2 addresses
-      address[] memory path;
-      if (_tokenIn == WETH || _tokenOut == WETH) {
+      // address[] memory path;
+       if (_tokenIn == WETH || _tokenOut == WETH) {
         path = new address[](2);
         path[0] = _tokenIn;
         path[1] = _tokenOut;
@@ -73,12 +69,11 @@ contract Swap {
         path[1] = WETH;
         path[2] = _tokenOut;
       }
-      
-      emit Debug(now, _amountIn, _amountOutMin, path, allowed, _to);
+
       //then we will call swapExactTokensForTokens
       //for the deadline we will pass in block.timestamp
       //the deadline is the latest time the trade is valid for
-      //IPancakeRouter(PANCAKE_V2_ROUTER).swapExactTokensForTokens(_amountIn, _amountOutMin, path, _to, block.timestamp);
+      IPancakeRouter(PANCAKE_V2_ROUTER).swapExactTokensForTokens(_amountIn, _amountOutMin, path, _to, block.timestamp);
     }
     
     //this function will return the minimum amount from a swap
