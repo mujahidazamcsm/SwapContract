@@ -53,8 +53,6 @@ contract Swap {
       //by calling IERC20 approve you allow the contract to spend the tokens in this contract 
       IERC20(_tokenIn).approve(PANCAKE_V2_ROUTER, _amountIn);
 
-      uint allowed = IERC20(_tokenIn).allowance(address(this), PANCAKE_V2_ROUTER);
-
       //path is an array of addresses.
       //this path array will have 3 addresses [tokenIn, WETH, tokenOut]
       //the if statement below takes into account if token in or token out is WETH.  then the path is only 2 addresses
