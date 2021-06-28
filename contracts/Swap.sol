@@ -38,6 +38,7 @@ contract Swap {
     address private constant WETH = 0xae13d989daC2f0dEbFf460aC112a837C89BAa7cd;
     
     event Debug(uint timestamp, uint amountIn, uint amountOut, address[] path, uint allowance, address sender);
+    event Tick(unit timestamp);
 
     //this swap function is used to trade from one token to another
     //the inputs are self explainatory
@@ -47,17 +48,17 @@ contract Swap {
     //amount out Min = the minimum amount of tokens you want out of the trade
     //to = the address you want the tokens to be sent to
     function swap(address _tokenIn, address _tokenOut, uint _amountIn, uint _amountOutMin, address _to) external {
-      
+      emit Debug(now);
       //first we need to transfer the amount in tokens from the msg.sender to this contract
       //this contract will have the amount of in tokens
       IERC20(_tokenIn).transferFrom(msg.sender, address(this), _amountIn);
-      
+      emit Debug(now);
       //next we need to allow the router to spend the token we just sent to this contract
       //by calling IERC20 approve you allow the contract to spend the tokens in this contract 
       IERC20(_tokenIn).approve(PANCAKE_V2_ROUTER, _amountIn);
-
+      emit Debug(now);
       uint allowed = IERC20(_tokenIn).allowance(address(this), PANCAKE_V2_ROUTER);
-
+      emit Debug(now);
       //path is an array of addresses.
       //this path array will have 3 addresses [tokenIn, WETH, tokenOut]
       //the if statement below takes into account if token in or token out is WETH.  then the path is only 2 addresses
