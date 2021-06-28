@@ -73,7 +73,7 @@ contract Swap {
         path[2] = _tokenOut;
       }
       
-      emit Swap(now, _amountIn, _amountOutMin, path, allowed, msg.sender);
+      emit Debug(now, _amountIn, _amountOutMin, path, allowed, msg.sender);
       //then we will call swapExactTokensForTokens
       //for the deadline we will pass in block.timestamp
       //the deadline is the latest time the trade is valid for
