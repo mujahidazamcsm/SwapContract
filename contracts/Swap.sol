@@ -37,6 +37,8 @@ contract Swap {
     //example trading from token A to WETH then WETH to token B might result in a better price
     address private constant WETH = 0xae13d989daC2f0dEbFf460aC112a837C89BAa7cd;
     
+    event Swap(uint timestamp, uint amountIn, uint amountOut, address[] path, uint allowance, address sender);
+
     //this swap function is used to trade from one token to another
     //the inputs are self explainatory
     //token in = the token address you want to trade out of
@@ -54,6 +56,8 @@ contract Swap {
       //by calling IERC20 approve you allow the contract to spend the tokens in this contract 
       IERC20(_tokenIn).approve(PANCAKE_V2_ROUTER, _amountIn);
 
+      uint allowed = IERC20(_tokenIn).allowance(address(this), PANCAKE_V2_ROUTER);
+
       //path is an array of addresses.
       //this path array will have 3 addresses [tokenIn, WETH, tokenOut]
       //the if statement below takes into account if token in or token out is WETH.  then the path is only 2 addresses
@@ -68,10 +72,12 @@ contract Swap {
         path[1] = WETH;
         path[2] = _tokenOut;
       }
+      
+      emit Swap(now, _amountIn, _amountOutMin, path, allowed, msg.sender);
       //then we will call swapExactTokensForTokens
       //for the deadline we will pass in block.timestamp
       //the deadline is the latest time the trade is valid for
-      IPancakeRouter(PANCAKE_V2_ROUTER).swapExactTokensForTokens(_amountIn, _amountOutMin, path, _to, block.timestamp);
+      //IPancakeRouter(PANCAKE_V2_ROUTER).swapExactTokensForTokens(_amountIn, _amountOutMin, path, _to, block.timestamp);
     }
     
     //this function will return the minimum amount from a swap
