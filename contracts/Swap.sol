@@ -38,7 +38,7 @@ contract Swap {
     address private constant WETH = 0xae13d989daC2f0dEbFf460aC112a837C89BAa7cd;
     
     event Debug(uint timestamp, uint amountIn, uint amountOut, address[] path, uint allowance, address sender);
-    event Tick(unit timestamp);
+    event Tick(uint timestamp);
 
     //this swap function is used to trade from one token to another
     //the inputs are self explainatory
