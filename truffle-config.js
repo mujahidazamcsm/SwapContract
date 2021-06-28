@@ -23,9 +23,9 @@
 //
 // const fs = require('fs');
 // const mnemonic = fs.readFileSync(".secret").toString().trim();
-require('dotenv').config();
-const HDWalletProvider = require('@truffle/hdwallet-provider');
-const privateKeys = process.env.PRIVATE_KEY || ""
+require("dotenv").config();
+const HDWalletProvider = require("@truffle/hdwallet-provider");
+const privateKeys = process.env.PRIVATE_KEY || "";
 
 module.exports = {
   /**
@@ -40,12 +40,13 @@ module.exports = {
 
   networks: {
     bsc_testnet: {
-      provider: () => new HDWalletProvider(
-        privateKeys.split(','),
-        `https://data-seed-prebsc-1-s1.binance.org:8545`
-      ),
+      provider: () =>
+        new HDWalletProvider(
+          privateKeys.split(","),
+          `https://data-seed-prebsc-1-s1.binance.org:8545`
+        ),
       network_id: 97,
-      skipDryRun: true
+      skipDryRun: true,
     },
     // Useful for testing. The `development` name is special - truffle uses it by default
     // if it's defined here and no other network is specified at the command line.
@@ -93,7 +94,7 @@ module.exports = {
   // Configure your compilers
   compilers: {
     solc: {
-      version: "0.7.0",    // Fetch exact version from solc-bin (default: truffle's version)
+      version: "0.7.0", // Fetch exact version from solc-bin (default: truffle's version)
       // docker: true,        // Use "0.5.1" you've installed locally with docker (default: false)
       // settings: {          // See the solidity docs for advice about optimization and evmVersion
       //  optimizer: {
@@ -102,7 +103,7 @@ module.exports = {
       //  },
       //  evmVersion: "byzantium"
       // }
-    }
+    },
   },
 
   // Truffle DB is currently disabled by default; to enable it, change enabled: false to enabled: true
@@ -112,6 +113,6 @@ module.exports = {
   // $ truffle migrate --reset --compile-all
 
   db: {
-    enabled: false
-  }
+    enabled: false,
+  },
 };
